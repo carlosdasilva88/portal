@@ -1,0 +1,31 @@
+services:
+  app:
+    build: .
+    container_name: portal_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: portal
+      DB_PASSWORD: portal
+      DB_NAME: portal
+    restart: always
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: portal_postgres
+    environment:
+      POSTGRES_USER: portal
+      POSTGRES_PASSWORD: portal
+      POSTGRES_DB: portal
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  postgres_data:
